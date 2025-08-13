@@ -1,40 +1,12 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <title>Проверка пароля</title>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
-        .hidden { display: none; }
-    </style>
+    <style>body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }</style>
 </head>
 <body>
     <div id="message"></div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const lc = urlParams.get('lc');
-            const messageDiv = document.getElementById('message');
-            const storedBlock = localStorage.getItem('blockAccess');
-
-            // Если доступ уже был заблокирован ранее
-            if (storedBlock === 'true') {
-                messageDiv.textContent = 'Нет (заблокировано)';
-                return;
-            }
-
-            // Если параметр ?lc=... есть в URL
-            if (lc !== null) {
-                if (lc === '12345') {
-                    messageDiv.textContent = 'Да';
-                } else {
-                    messageDiv.textContent = 'Нет';
-                    localStorage.setItem('blockAccess', 'true'); // Блокируем на будущее
-                }
-            }
-            // Если ?lc=... нет, ничего не показываем
-        });
-    </script>
+    <script src="script.js"></script> <!-- Логика здесь! -->
 </body>
 </html>
