@@ -1,1 +1,26 @@
-document.addEventListener('DOMContentLoaded',()=>{const p=new URLSearchParams(window.location.search),lc=p.get('lc'),m=document.getElementById('message'),b=localStorage.getItem('blockAccess');Object.defineProperty(window,'localStorage',{writable:!1,configurable:!1}),Object.freeze(localStorage);if('true'===b)return m.textContent='Нет (заблокировано)',void(window.location.reload=function(){});null!==lc&&('12345'===lc?m.textContent='Да':(m.textContent='Нет',localStorage.setItem('blockAccess','true'),localStorage.removeItem=function(){}))});
+document.addEventListener('DOMContentLoaded',()=>{
+    const p=new URLSearchParams(window.location.search),
+          lc=p.get('lc'),
+          m=document.getElementById('message'),
+          b=localStorage.getItem('blockAccess');
+    
+    // Защита от ручного удаления блокировки
+    Object.defineProperty(window, 'localStorage', {
+        writable: false,
+        configurable: false
+    });
+    Object.defineProperty(window, 'location', {
+        writable: false,
+        configurable: false
+    });
+    
+    if(b==='true'){
+        m.textContent='Нет (заблокировано)';
+        return;
+    }
+    
+    if(lc!==null){
+        m.textContent=lc==='12345'?'Да':'Нет';
+        if(lc!=='12345')localStorage.setItem('blockAccess','true');
+    }
+});
