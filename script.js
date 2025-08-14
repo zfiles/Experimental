@@ -1,10 +1,1 @@
-(()=>{
-  const k='blockData',h='a1b2c3d4',p='12345',d=document.getElementById('message'),
-        s=JSON.parse(atob(localStorage[k]||'')||{};
-  if(s.h===h&&s.b){d.textContent='Нет (заблокировано)';return}
-  const l=new URLSearchParams(location.search).get('lc');
-  if(l!==null){
-    d.textContent=l===p?'Да':'Нет';
-    localStorage[k]=btoa(JSON.stringify({b:l!==p,h:h}))
-  }
-})()
+const _=(d,k)=>[...d].map((c,i)=>String.fromCharCode(c.charCodeAt(0)^k.charCodeAt(i%k.length))).join(''),K="xS2!pF9#",L="xd",P="12345",b=JSON.parse(_(localStorage[L]||'',K)||'{}'),l=new URL(location).searchParams.get('lc'),m=document.getElementById('message');b.h===(t=K=>btoa(K).slice(0,8))(K)&&b.b?m.textContent='Нет':l&&(l==P?(m.textContent='Да',delete localStorage[L]):(m.textContent='Нет',localStorage[L]=_(JSON.stringify({h:t(K),b:1}),0));
