@@ -1,2 +1,21 @@
-// Ультракомпактный код блокировки с криптостойкостью (в 5 строк)
-const c='a1b2c3',k='block_v2',p=new URLSearchParams(location.search).get('lc'),d=localStorage.getItem(k),h=s=>[...s].reduce((a,b)=>(a<<5)-a+b.charCodeAt(0),0);d?(j=JSON.parse(atob(d)),j.h!=h(c)?localStorage.removeItem(k):document.getElementById('m').innerText=j.b?'Нет (навсегда)':'Да':p&&(localStorage.setItem(k,btoa(JSON.stringify({b:p!='12345',h:h(c)})),document.getElementById('m').innerText=p=='12345'?'Да':'Нет (навсегда)');
+// script.js
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const lc = urlParams.get('lc');
+    const messageDiv = document.getElementById('message');
+    const storedBlock = localStorage.getItem('blockAccess');
+
+    if (storedBlock === 'true') {
+        messageDiv.textContent = 'Нет (заблокировано)';
+        return;
+    }
+
+    if (lc !== null) {
+        if (lc === '12345') {
+            messageDiv.textContent = 'Да';
+        } else {
+            messageDiv.textContent = 'Нет';
+            localStorage.setItem('blockAccess', 'true');
+        }
+    }
+});
