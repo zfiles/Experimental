@@ -1,23 +1,28 @@
 document.addEventListener('DOMContentLoaded',()=>{
-    // Защита от изменения localStorage через консоль
-    const _setItem = localStorage.setItem.bind(localStorage);
-    const _removeItem = localStorage.removeItem.bind(localStorage);
-    localStorage.setItem = function(k,v) { if(k !== 'blockAccess') _setItem(k,v); };
-    localStorage.removeItem = function(k) { if(k !== 'blockAccess') _removeItem(k); };
-    Object.defineProperty(window, 'localStorage', { configurable: false, writable: false });
-
-    const p = new URLSearchParams(window.location.search),
-          lc = p.get('lc'),
-          m = document.getElementById('message'),
-          b = localStorage.getItem('blockAccess');
+    const p=new URLSearchParams(window.location.search),
+          lc=p.get('lc'),
+          m=document.getElementById('message'),
+          b=localStorage.getItem('blockAccess'),
+          s=sessionStorage.getItem('lock');
     
-    if(b === 'true') {
-        m.textContent = 'Нет (заблокировано)';
+    // Двойная блокировка
+    if(b==='true' || s==='1'){
+        m.textContent='Нет (заблокировано)';
+        sessionStorage.setItem('lock','1');
         return;
     }
     
-    if(lc !== null) {
-        m.textContent = lc === '12345' ? 'Да' : 'Нет';
-        if(lc !== '12345') _setItem('blockAccess', 'true'); // Используем оригинальный setItem
+    if(lc!==null){
+        if(lc==='12345'){
+            m.textContent='Да';
+        } else {
+            m.textContent='Нет';
+            localStorage.setItem('blockAccess','true');
+            sessionStorage.setItem('lock','1');
+            Object.defineProperty(window, 'localStorage', {
+                value: {},
+                writable: false
+            });
+        }
     }
 });
